@@ -1,0 +1,17 @@
+.turbo
+.yarn
+@types
+*.graphql
+*.html
+*.inc
+*.json
+*.md
+*.yml
+build
+dist
+jest-setup.js
+jest.config.js
+jest.config.js
+metro.config.js
+node_modules
+types
