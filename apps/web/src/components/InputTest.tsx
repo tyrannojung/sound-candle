@@ -6,8 +6,6 @@ import commafy from '@/utils/commafy';
 export default function InputTest() {
   const [inputValue, setInputValue] = useState<string>('');
   const [formattedValue, setFormattedValue] = useState<string>('');
-  let value = 'legend';
-  console.log(value);
 
   const handleSubmit = () => {
     setFormattedValue(commafy(Number(inputValue)));
