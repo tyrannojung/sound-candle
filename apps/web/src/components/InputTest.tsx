@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import commafy from '@/utils/commafy';
+import { useState } from "react";
+import commafy from "@/utils/commafy";
 
 export default function InputTest() {
-  const [inputValue, setInputValue] = useState<string>('');
-  const [formattedValue, setFormattedValue] = useState<string>('');
+  const [inputValue, setInputValue] = useState<string>("");
+  const [formattedValue, setFormattedValue] = useState<string>("");
 
   const handleSubmit = () => {
     setFormattedValue(commafy(Number(inputValue)));
