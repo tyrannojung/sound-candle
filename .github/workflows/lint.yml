@@ -23,21 +23,21 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
 
-      - name: Get npm store directory
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Get pnpm store directory
         uses: actions/cache@v3
-        id: npm-cache
+        id: pnpm-cache
         with:
-          path: |
-            **/node_modules
-            ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-node-
-            ${{ runner.os }}
-      - if: ${{ steps.npm-cache.outputs.cache-hit != 'true' }}
-        run: npm ci
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Check code lint
-        run: npm run lint
+        run: pnpm run lint

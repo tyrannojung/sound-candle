@@ -16,28 +16,34 @@ jobs:
         node-version: [18.x]
 
     steps:
+      # 1️⃣ Checkout 코드
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 2️⃣ Node.js 환경 설정
       - name: Set up node ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
 
-      - name: Get npm store directory
+      # 3️⃣ pnpm 설치
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      # 4️⃣ pnpm 캐시 설정
+      - name: Get pnpm store directory
         uses: actions/cache@v3
-        id: npm-cache
+        id: pnpm-cache
         with:
-          path: |
-            **/node_modules
-            ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
-            ${{ runner.os }}-node-
-            ${{ runner.os }}
-      - if: ${{ steps.npm-cache.outputs.cache-hit != 'true' }}
-        run: npm ci
+            ${{ runner.os }}-pnpm-store-
 
+      # 5️⃣ 의존성 설치
+      - name: Install dependencies
+        run: pnpm install
+
+      # 6️⃣ 유닛 테스트 실행
       - name: Execute unit tests
-        run: npm test
+        run: pnpm test
