@@ -19,10 +19,12 @@ export default function Home() {
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* 페이지 헤더 */}
         <header className="mb-8">
-          <h1 className="text-4xl font-bold text-[#191F28] mb-3">Sound Candle</h1>
+          <div className="flex items-center gap-3 mb-3">
+            <h1 className="text-4xl font-bold text-[#191F28]">Sound Candle</h1>
+            <span className="px-3 py-1 text-sm font-medium text-[#3182f6] bg-[#3182f6]/10 rounded-full">Beta</span>
+          </div>
           <p className="text-lg text-[#191F28]/80 max-w-2xl leading-relaxed">
-            비트코인 차트가 들려주는 음악을 경험해보세요. 시장의 흐름이 음악으로 표현되어 새로운 방식으로 시장을 이해할
-            수 있습니다.
+            비트코인 차트가 들려주는 음악을 경험해보세요...
           </p>
         </header>
         {/* 본문 영역 (그리드) */}
@@ -41,6 +43,41 @@ export default function Home() {
               <h2 className="text-xl font-semibold text-[#191F28] mb-4">실시간 거래 내역</h2>
               <div className="h-[500px]">
                 <BinanceRealtime />
+              </div>
+            </div>
+          </div>
+
+          {/* 음악 컨트롤 섹션 */}
+          <div className="col-span-12">
+            <div className="bg-white rounded-xl shadow-sm p-6">
+              <div className="flex flex-col items-center text-center">
+                {/* 재생 정보 */}
+                <h2 className="text-2xl font-semibold text-[#191F28]">시장 뮤직 플레이어</h2>
+                <p className="text-[#3182f6] font-medium mt-1 mb-6">현재 재생중: 상승장 테마</p>
+
+                {/* 재생/일시정지 버튼 */}
+                <button
+                  type="button"
+                  aria-label="음악 재생"
+                  className="w-16 h-16 rounded-full bg-[#3182f6] hover:bg-[#2970d6] 
+                  transition-colors flex items-center justify-center text-white 
+                  shadow-md"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2}
+                    stroke="currentColor"
+                    className="w-8 h-8"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 0 1 0 1.972l-11.54 6.347c-.75.412-1.667-.13-1.667-.986V5.653Z"
+                    />
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
