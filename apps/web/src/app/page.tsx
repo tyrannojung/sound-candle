@@ -1,8 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import useTradingViewChart from '@/hooks/useTradingViewChart';
 import BinanceRealtime from '@/components/BinanceRealtime';
+import axios from 'axios';
 
 export default function Home() {
   // 차트 초기화
@@ -12,6 +13,19 @@ export default function Home() {
     interval: '1',
     height: '500',
   });
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get('https://api.alternative.me/fng/?limit=1&format=json');
+        console.log(response.data.data[0].value_classification);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    fetchData();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-[#F9FAFB] overflow-x-hidden">
