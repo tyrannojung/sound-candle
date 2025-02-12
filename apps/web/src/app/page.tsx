@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import useTradingViewChart from '@/hooks/useTradingViewChart';
 import BinanceRealtime from '@/components/BinanceRealtime';
+import BinanceMAWatcher from '@/components/BinanceMAWatcher';
 import { SentimentValue } from '@/constants/feargreedindex';
 import FearGreedIndicator from '@/components/FearGreedIndicator';
 
@@ -72,8 +73,8 @@ export default function Home() {
 
           {/* 음악 컨트롤 섹션 */}
           {/* 음악 컨트롤 섹션과 탐욕 지수 섹션을 감싸는 컨테이너 */}
-          <div className="col-span-12 grid grid-cols-2 gap-6">
-            {/* 음악 컨트롤 섹션 */}
+          <div className="col-span-12 grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* 🎵 시장 뮤직 플레이어 */}
             <div className="bg-white rounded-xl shadow-sm p-6">
               <div className="flex flex-col items-center text-center">
                 <h2 className="text-2xl font-semibold text-[#191F28]">시장 뮤직 플레이어</h2>
@@ -82,8 +83,8 @@ export default function Home() {
                   type="button"
                   aria-label="음악 재생"
                   className="w-16 h-16 rounded-full bg-[#3182f6] hover:bg-[#2970d6] 
-                  transition-colors flex items-center justify-center text-white 
-                  shadow-md"
+        transition-colors flex items-center justify-center text-white 
+        shadow-md"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -103,14 +104,18 @@ export default function Home() {
               </div>
             </div>
 
-            {/* 탐욕 지수 박스 */}
-            <div className="bg-white rounded-xl shadow-sm p-6">
+            {/* 📊 Fear & Greed Index */}
+            <div className="bg-white rounded-xl shadow-sm p-6 flex flex-col justify-center items-center">
+              <h2 className="text-2xl font-semibold text-[#191F28] mb-4">탐욕 & 공포 지수</h2>
               {loading ? (
                 <p className="text-center text-gray-500">데이터 로딩 중...</p>
               ) : (
                 <FearGreedIndicator sentiment={sentiment} sentimentValue={sentimentValue} />
               )}
             </div>
+
+            {/* 📈 이동평균선 분석 */}
+            <BinanceMAWatcher />
           </div>
 
           {/* 추가 정보 섹션 */}
