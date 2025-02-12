@@ -1,11 +1,16 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import useTradingViewChart from '@/hooks/useTradingViewChart';
 import BinanceRealtime from '@/components/BinanceRealtime';
-import axios from 'axios';
+import { SentimentValue } from '@/constants/feargreedindex';
+import FearGreedIndicator from '@/components/FearGreedIndicator';
 
 export default function Home() {
+  const [sentiment, setSentiment] = useState<SentimentValue | null>(null);
+  const [sentimentValue, setSentimentValue] = useState<string>('');
+  const [loading, setLoading] = useState(true);
+
   // 차트 초기화
   useTradingViewChart('tradingview-container', {
     symbol: 'BINANCE:BTCUSDT',
@@ -17,10 +22,14 @@ export default function Home() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get('https://api.alternative.me/fng/?limit=1&format=json');
-        console.log(response.data.data[0].value_classification);
+        const response = await fetch('https://api.alternative.me/fng/?limit=1&format=json');
+        const data = await response.json();
+        setSentiment(data.data[0].value_classification);
+        setSentimentValue(data.data[0].value);
       } catch (error) {
         console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
       }
     }
 
@@ -62,14 +71,13 @@ export default function Home() {
           </div>
 
           {/* 음악 컨트롤 섹션 */}
-          <div className="col-span-12">
+          {/* 음악 컨트롤 섹션과 탐욕 지수 섹션을 감싸는 컨테이너 */}
+          <div className="col-span-12 grid grid-cols-2 gap-6">
+            {/* 음악 컨트롤 섹션 */}
             <div className="bg-white rounded-xl shadow-sm p-6">
               <div className="flex flex-col items-center text-center">
-                {/* 재생 정보 */}
                 <h2 className="text-2xl font-semibold text-[#191F28]">시장 뮤직 플레이어</h2>
                 <p className="text-[#3182f6] font-medium mt-1 mb-6">현재 재생중: 상승장 테마</p>
-
-                {/* 재생/일시정지 버튼 */}
                 <button
                   type="button"
                   aria-label="음악 재생"
@@ -93,6 +101,15 @@ export default function Home() {
                   </svg>
                 </button>
               </div>
+            </div>
+
+            {/* 탐욕 지수 박스 */}
+            <div className="bg-white rounded-xl shadow-sm p-6">
+              {loading ? (
+                <p className="text-center text-gray-500">데이터 로딩 중...</p>
+              ) : (
+                <FearGreedIndicator sentiment={sentiment} sentimentValue={sentimentValue} />
+              )}
             </div>
           </div>
 
