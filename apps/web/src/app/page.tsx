@@ -83,8 +83,8 @@ export default function Home() {
                   type="button"
                   aria-label="음악 재생"
                   className="w-16 h-16 rounded-full bg-[#3182f6] hover:bg-[#2970d6] 
-        transition-colors flex items-center justify-center text-white 
-        shadow-md"
+                  transition-colors flex items-center justify-center text-white 
+                  shadow-md"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
