@@ -1,37 +1,37 @@
 # 🎵 Sound Candle
 
-Sound Candle은 비트코인 시장의 분위기를 음악으로 표현하는 독특한 크립토 차트 플랫폼입니다.
+Sound Candle is a unique crypto charting platform that translates Bitcoin market sentiment into music.
 
-## 📊 주요 기능
+## 📊 Key Features
 
-- **실시간 비트코인 차트**: TradingView를 통한 실시간 BTC/USDT 차트 제공
-- **감정 기반 음악 재생**: 시장 상황에 따라 자동으로 변화하는 배경 음악
-- **공포/탐욕 지수 시각화**: 현재 시장 심리를 직관적으로 표현
+- **Real-Time Bitcoin Chart**: Live BTC/USDT charts powered by TradingView
+- **Emotion-Based Music Playback**: Background music dynamically adapts to market conditions
+- **Fear & Greed Index Visualization**: Intuitive representation of market sentiment
 
-## 🎼 음악 시스템
+## 🎼 Music System
 
-시장의 공포/탐욕 지수에 따라 다른 분위기의 음악이 재생됩니다:
+Music adapts based on the Fear & Greed Index, reflecting the market's emotional state.
 
-### 공포/탐욕 지수 기준
-- 0-24: 극도의 공포 (Extreme Fear)
-- 25-44: 공포 (Fear)
-- 45-55: 중립 (Neutral)
-- 56-75: 탐욕 (Greed)
-- 76-100: 극도의 탐욕 (Extreme Greed)
+### Fear & Greed Index Levels
+- 0-24: Extreme Fear
+- 25-44: Fear
+- 45-55: Neutral
+- 56-75: Greed
+- 76-100: Extreme Greed
 
-### 🎵 수록곡 목록
+### 🎵 Music Selection
 
-#### Bull Market (중립 이상)
+#### Bull Market (Neutral or Higher)
 - Upbeat Electronic
 - Positive Vibes
 - Market Rally
 
-#### Bear Market (중립 미만)
+#### Bear Market (Below Neutral)
 - Calm Ambient
 - Market Correction
 - Defensive Position
 
-## 🛠️ 기술 스택
+## 🛠️ Tech Stack
 
 - Next.js
 - TypeScript
@@ -39,23 +39,23 @@ Sound Candle은 비트코인 시장의 분위기를 음악으로 표현하는 �
 - WebSocket (Binance API)
 - TailwindCSS
 
-## 🚀 시작하기
+## 🚀 Getting Started
 
 ```bash
-# 저장소 클론
-git clone https://github.com/yourusername/sound-candle.git
+# Clone the repository  
+git clone https://github.com/tyrannojung/sound-candle.git
 
-# 의존성 설치
+# Install dependencies
 npm install
 
-# 개발 서버 실행
+# Run the development server
 npm run dev
 ```
 
-## 📝 라이선스
+## 📝 License
 
 MIT License
 
-## 👥 기여하기
+## 👥 Contributing
 
-프로젝트에 기여하고 싶으시다면 Pull Request를 보내주세요.
+If you'd like to contribute to the project, please send a Pull Request.
