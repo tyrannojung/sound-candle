@@ -1,84 +1,61 @@
-# Turborepo starter 
+# 🎵 Sound Candle
 
-This Turborepo starter is maintained by the Turborepo core team.
+Sound Candle은 비트코인 시장의 분위기를 음악으로 표현하는 독특한 크립토 차트 플랫폼입니다.
 
-## Using this example
+## 📊 주요 기능
 
-Run the following command:
+- **실시간 비트코인 차트**: TradingView를 통한 실시간 BTC/USDT 차트 제공
+- **감정 기반 음악 재생**: 시장 상황에 따라 자동으로 변화하는 배경 음악
+- **공포/탐욕 지수 시각화**: 현재 시장 심리를 직관적으로 표현
 
-```sh
-npx create-turbo@latest
+## 🎼 음악 시스템
+
+시장의 공포/탐욕 지수에 따라 다른 분위기의 음악이 재생됩니다:
+
+### 공포/탐욕 지수 기준
+- 0-24: 극도의 공포 (Extreme Fear)
+- 25-44: 공포 (Fear)
+- 45-55: 중립 (Neutral)
+- 56-75: 탐욕 (Greed)
+- 76-100: 극도의 탐욕 (Extreme Greed)
+
+### 🎵 수록곡 목록
+
+#### Bull Market (중립 이상)
+- Upbeat Electronic
+- Positive Vibes
+- Market Rally
+
+#### Bear Market (중립 미만)
+- Calm Ambient
+- Market Correction
+- Defensive Position
+
+## 🛠️ 기술 스택
+
+- Next.js
+- TypeScript
+- TradingView API
+- WebSocket (Binance API)
+- TailwindCSS
+
+## 🚀 시작하기
+
+```bash
+# 저장소 클론
+git clone https://github.com/yourusername/sound-candle.git
+
+# 의존성 설치
+npm install
+
+# 개발 서버 실행
+npm run dev
 ```
 
-## What's inside?
+## 📝 라이선스
 
-This Turborepo includes the following packages/apps:
+MIT License
 
-### Apps and Packages
+## 👥 기여하기
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm dev
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-npx turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+프로젝트에 기여하고 싶으시다면 Pull Request를 보내주세요.
