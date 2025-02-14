@@ -2,10 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import useTradingViewChart from '@/hooks/useTradingViewChart';
-import BinanceRealtime from '@/components/BinanceRealtime';
+// import BinanceRealtime from '@/components/BinanceRealtime';
 import BinanceMAWatcher from '@/components/BinanceMAWatcher';
 import { SentimentValue } from '@/constants/feargreedindex';
 import FearGreedIndicator from '@/components/FearGreedIndicator';
+import { initializeBinanceWebSocket, fetchInitialKlineData } from '@/utils/socket';
 
 export default function Home() {
   const [sentiment, setSentiment] = useState<SentimentValue | null>(null);
@@ -37,6 +38,14 @@ export default function Home() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    fetchInitialKlineData();
+
+    // 함수를 전달한다. 함수명 보내는거고 () =>
+    const cleanup = initializeBinanceWebSocket();
+    return cleanup;
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-[#F9FAFB] overflow-x-hidden">
       {/* 전체 컨테이너: 최대 너비 7xl, 가운데 정렬, 좌우 padding */}
@@ -65,9 +74,7 @@ export default function Home() {
           <div className="col-span-12 md:col-span-4">
             <div className="bg-white rounded-xl shadow-sm p-6 h-full">
               <h2 className="text-xl font-semibold text-[#191F28] mb-4">실시간 거래 내역</h2>
-              <div className="h-[500px]">
-                <BinanceRealtime />
-              </div>
+              <div className="h-[500px]">{/* <BinanceRealtime /> */}</div>
             </div>
           </div>
 

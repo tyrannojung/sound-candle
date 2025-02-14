@@ -1,105 +1,30 @@
 'use client';
 
-import React, { useEffect, useState, useRef } from 'react';
-
-interface KlineData {
-  time: number;
-  close: number;
-}
+import React from 'react';
+import { useBinanceStore } from '@/hooks/useBinanceStore';
 
 export default function BinanceMAWatcher() {
-  const [klineData, setKlineData] = useState<KlineData[]>([]);
-  const [ma15, setMa15] = useState<number | null>(null);
-  const [ma50, setMa50] = useState<number | null>(null);
-  const [, setCurrentPrice] = useState<number | null>(null);
-  const pricePositionRef = useRef<string>('📍 현재 가격 위치: 계산 중...');
+  const ma15 = useBinanceStore((state) => state.ma15);
+  const ma50 = useBinanceStore((state) => state.ma50);
+  const currentPrice = useBinanceStore((state) => state.currentPrice);
 
-  // ✅ 1. 페이지 접속 시 과거 데이터 불러오기 (50개 캔들)
-  useEffect(() => {
-    const fetchHistoricalData = async () => {
-      try {
-        const response = await fetch('https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=50');
-        const data = await response.json();
-        const historicalData: KlineData[] = data.map((d: any) => ({
-          time: d[0],
-          close: parseFloat(d[4]), // 종가 (Close)
-        }));
-
-        setKlineData(historicalData);
-      } catch (error) {
-        console.error('🚨 과거 1분봉 데이터를 가져오는 중 오류 발생:', error);
-      }
-    };
-
-    fetchHistoricalData();
-  }, []);
-
-  // ✅ 2. 실시간 1분봉 데이터 추가 (웹소켓)
-  useEffect(() => {
-    const klineSocket = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@kline_1m');
-
-    klineSocket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      const kline = data.k;
-      if (!kline.x) return; // 캔들 종료 여부 확인
-
-      const newKline: KlineData = {
-        time: kline.t,
-        close: parseFloat(kline.c),
-      };
-
-      setKlineData((prev) => {
-        const updated = [...prev, newKline].slice(-50); // 50개 유지 (MA50 계산)
-        return updated;
-      });
-    };
-
-    return () => klineSocket.close();
-  }, []);
-
-  // ✅ 3. MA15 & MA50 계산
-  useEffect(() => {
-    if (klineData.length >= 50) {
-      const last15 = klineData.slice(-15).map((d) => d.close);
-      const last50 = klineData.map((d) => d.close);
-
-      const ma15Value = last15.reduce((acc, val) => acc + val, 0) / 15;
-      const ma50Value = last50.reduce((acc, val) => acc + val, 0) / 50;
-
-      setMa15(ma15Value);
-      setMa50(ma50Value);
+  // 📍 현재 가격 위치 메시지 계산
+  const getPositionMessage = () => {
+    if (ma15 === null || ma50 === null || currentPrice === null) {
+      return '📍 현재 가격 위치: 계산 중...';
     }
-  }, [klineData]);
 
-  // ✅ 4. 실시간 가격 감지 & 현재 가격 위치 계산
-  useEffect(() => {
-    const tradeSocket = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@trade');
-
-    tradeSocket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      const tradePrice = parseFloat(data.p);
-      setCurrentPrice(tradePrice);
-
-      if (ma15 !== null && ma50 !== null) {
-        let positionMessage = '📍 현재 가격 위치: 계산 중...';
-
-        if (tradePrice > ma15 && tradePrice > ma50) {
-          positionMessage = `📍 현재 가격(${tradePrice.toFixed(2)})이 MA15(${ma15.toFixed(2)}) & MA50(${ma50.toFixed(2)}) 위에 있음`;
-        } else if (tradePrice > ma15 && tradePrice < ma50) {
-          positionMessage = `📍 현재 가격(${tradePrice.toFixed(2)})이 MA15(${ma15.toFixed(2)}) 위, MA50(${ma50.toFixed(2)}) 아래에 있음`;
-        } else if (tradePrice < ma15 && tradePrice > ma50) {
-          positionMessage = `📍 현재 가격(${tradePrice.toFixed(2)})이 MA15(${ma15.toFixed(2)}) 아래, MA50(${ma50.toFixed(2)}) 위에 있음`;
-        } else if (tradePrice < ma15 && tradePrice < ma50) {
-          positionMessage = `📍 현재 가격(${tradePrice.toFixed(2)})이 MA15(${ma15.toFixed(2)}) & MA50(${ma50.toFixed(2)}) 아래에 있음`;
-        }
-
-        pricePositionRef.current = positionMessage;
-        console.log(positionMessage);
-      }
-    };
-
-    return () => tradeSocket.close();
-  }, [ma15, ma50]);
+    if (currentPrice > ma15 && currentPrice > ma50) {
+      return `📍 현재 가격(${currentPrice.toFixed(2)})이 MA15(${ma15.toFixed(2)}) & MA50(${ma50.toFixed(2)}) 위에 있음`;
+    }
+    if (currentPrice > ma15 && currentPrice < ma50) {
+      return `📍 현재 가격(${currentPrice.toFixed(2)})이 MA15(${ma15.toFixed(2)}) 위, MA50(${ma50.toFixed(2)}) 아래에 있음`;
+    }
+    if (currentPrice < ma15 && currentPrice > ma50) {
+      return `📍 현재 가격(${currentPrice.toFixed(2)})이 MA15(${ma15.toFixed(2)}) 아래, MA50(${ma50.toFixed(2)}) 위에 있음`;
+    }
+    return `📍 현재 가격(${currentPrice.toFixed(2)})이 MA15(${ma15.toFixed(2)}) & MA50(${ma50.toFixed(2)}) 아래에 있음`;
+  };
 
   return (
     <div className="bg-white rounded-xl shadow-sm p-6 flex flex-col items-center text-center">
@@ -113,7 +38,7 @@ export default function BinanceMAWatcher() {
       </div>
 
       {/* 📍 현재 가격 위치 */}
-      <p className="text-lg font-semibold text-[#191F28]">{pricePositionRef.current}</p>
+      <p className="text-lg font-semibold text-[#191F28]">{getPositionMessage()}</p>
     </div>
   );
 }
