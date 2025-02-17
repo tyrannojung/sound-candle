@@ -1,4 +1,4 @@
-# 🎵 Sound Candle
+# 🎵 Sound Candle 
 
 Sound Candle is a unique crypto charting platform that translates Bitcoin market sentiment into music.
 
